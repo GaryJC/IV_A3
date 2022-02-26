@@ -1,0 +1,319 @@
+body {
+  margin: 0;
+  padding: 0;
+  cursor: default;
+  font-family: "Lato", sans-serif;
+}
+
+#map {
+  position: absolute;
+  top: 5vh;
+  bottom: 0;
+  width: 95vw;
+  left: 2.5vw;
+  height: 90vh;
+}
+
+.divideLine {
+  padding-top: 1vh;
+  width: 90%;
+  border-bottom: 1px solid black;
+  position: absolute;
+}
+
+.rounded-rect {
+  background-color: aliceblue;
+  border-radius: 10px;
+  box-shadow: 0 0 50px -25px black;
+}
+
+.flex-center {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-center.left {
+  left: 0px;
+}
+
+.flex-center.right {
+  right: 0px;
+}
+
+.sidebar-content {
+  position: relative;
+  display: block;
+  width: 95%;
+  height: 95%;
+  color: dimgray;
+  overflow: auto;
+  font-size: 13px;
+}
+
+.sidebar-content div {
+  padding: 0.2rem;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 20vw;
+  width: 1.3em;
+  height: 1.3em;
+  overflow: visible;
+  font-size: 32px;
+}
+
+.sidebar-toggle:hover {
+  color: #0aa1cf;
+  cursor: pointer;
+}
+
+.sidebar {
+  transition: transform 1s;
+  z-index: 1;
+  width: 20vw;
+  height: 100%;
+}
+
+/*
+  The sidebar styling has them "expanded" by default, we use CSS transforms to push them offscreen
+  The toggleSidebar() function removes this class from the element in order to expand it.
+  */
+.left.collapsed {
+  transform: translateX(-20vw);
+}
+
+/* navigation instruction bar */
+
+#instructions {
+  position: absolute;
+  height: 25%;
+  margin: 20px;
+  width: 25%;
+  right: 1.5vw;
+  bottom: 2vw;
+  padding: 20px;
+  background-color: aliceblue;
+  overflow-y: scroll;
+  border-radius: 5%;
+  /* visibility: hidden; */
+  display: none;
+}
+
+#custBut {
+  position: absolute;
+  right: 3vw;
+  top: 29vh;
+  padding: 0.6rem;
+  border-radius: 10px;
+  background-color: #253494;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Custom markers */
+
+.marker {
+  height: 50px;
+  width: 45px;
+  background-repeat: no;
+  background-position: center;
+}
+
+.marker.scenic {
+  background-image: url(./img/markers/pin.png);
+}
+
+.marker.restaurant {
+  background-image: url(./img/markers/restaurant.png);
+}
+
+.userGuide {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  text-align: center;
+  width: 15vw;
+  height: 10vh;
+  color: aliceblue;
+}
+
+#guide1 {
+  left: 24vw;
+  top: 15vh;
+  position: absolute;
+}
+
+#guide2 {
+  top: 27vh;
+  right: 12vw;
+  visibility: hidden;
+  position: absolute;
+}
+
+#guide3 {
+  top: 16vh;
+  right: 7vw;
+  visibility: hidden;
+  position: absolute;
+}
+
+#guide3 p {
+  padding-left: 0.1rem;
+}
+
+#test {
+  background: rgba(black, 0.5);
+}
+
+.chartPage {
+  display: flex;
+  padding: 3rem;
+  justify-content: space-around;
+}
+#barCanvas {
+  width: 55vw;
+  height: 90vh;
+}
+
+#pieCanvas {
+  width: 35vw;
+  height: 90vh;
+}
+
+#slide1 {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("src/longPicture.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#slide2 {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("src/Aerial-view-of-Melbourne-with-Albert-Park-and-skyscrapers.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#slide3 {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("src/melbourne-australia-6.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#slide4 {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("src/2011-emirates-melbourne-cup-please-credit-photo-www-sdpmedia-com-au.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#slide5 {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("src/melbourneCup.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.homeTitle {
+  text-align: center;
+  width: 50vw;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Oswald", sans-serif;
+  font-weight: 500;
+}
+
+.mainTitle {
+  color: white;
+  font-size: 5.5rem;
+}
+
+.subTitle {
+  color: white;
+  font-size: 2.5rem;
+}
+
+.fp-slidesNav {
+  display: flex;
+  justify-content: center;
+}
+
+/* #fp-nav ul li a span,
+.fp-slidesNav ul li a span {
+  background: blue;
+} */
+
+.sidebarImg {
+  display: flex;
+  justify-content: center;
+}
+
+.sideBarItem h3 {
+  text-align: center;
+}
+
+.popupWindow div {
+  font-size: 14px;
+}
+
+.popupWindow a {
+  font-size: 14px;
+}
+
+.speech-bubble-left {
+  position: relative;
+  background: #253494;
+  border-radius: 0.4em;
+}
+
+.speech-bubble-left:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 1.031em solid transparent;
+  border-right-color: #253494;
+  border-left: 0;
+  margin-top: -1.031em;
+  margin-left: -1.031em;
+}
+
+.speech-bubble-right {
+  position: relative;
+  background: #253494;
+  border-radius: 0.4em;
+}
+
+.speech-bubble-right:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 1.031em solid transparent;
+  border-left-color: #253494;
+  border-right: 0;
+  margin-top: -1.031em;
+  margin-right: -1.031em;
+}

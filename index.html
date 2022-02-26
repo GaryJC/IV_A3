@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- mapbox -->
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script src="dataSource.js"></script>
+    <script src="chartDataSource.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <!-- draw library -->
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.3.0/mapbox-gl-draw.css"
+      type="text/css"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.3.0/mapbox-gl-draw.js"></script>
+    <!-- chartjs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- fullpage library -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js"
+      integrity="sha512-gSf3NCgs6wWEdztl1e6vUqtRP884ONnCNzCpomdoQ0xXsk06lrxJsR7jX5yM/qAGkPGsps+4bLV5IEjhOZX+gg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.css"
+      integrity="sha512-TD/aL30dNLN0VaHVoh9voFlNi7ZuWQYtV4bkIJv2ulZ8mEEkZJ7IyGvDthMKvIUwzLmPONnjQlAi55HTERVXpw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.extensions.min.js"
+      integrity="sha512-v0jjVvFpZqb1BcXhgLbaBDRKwZ09IpWFZL5NHTNbW9MlSjhZihkxEz2uNeMGd6HuK1qnSEL6JdyTr24ZHlgKow=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&family=Oswald&display=swap"
+      rel="stylesheet"
+    />
+    <title>Plan your trip</title>
+  </head>
+  <body>
+    <div id="fullpage">
+      <!-- homepage -->
+      <div class="section">
+        <div class="slide" id="slide1">
+          <div class="homeTitle">
+            <p class="mainTitle">Welcome to Melbourne</p>
+            <p class="subTitle">The world's most liveable city from 2011 to 2017</p>
+          </div>
+        </div>
+        <div class="slide" id="slide2">
+          <div class="homeTitle">
+            <p class="mainTitle">Find a Brunch</p>
+            <p class="subTitle">
+              We have a great selection of brunch ideas for you, explore them on our
+              map
+            </p>
+          </div>
+        </div>
+        <div class="slide" id="slide3">
+          <div class="homeTitle">
+            <p class="mainTitle">Find a Scenic Spot</p>
+            <p class="subTitle">
+              Are you interested in the scenic spots in Melbourne?
+            </p>
+          </div>
+        </div>
+        <div class="slide" id="slide4">
+          <div class="homeTitle">
+            <p class="mainTitle">Plan Your Trip</p>
+            <p class="subTitle">
+              We help you plan for your trip, let's go to the map
+            </p>
+          </div>
+        </div>
+        <div class="slide" id="slide5">
+          <div class="homeTitle">
+            <p class="mainTitle">Explore</p>
+            <p class="subTitle">More features are waiting for you to explore</p>
+          </div>
+        </div>
+      </div>
+      <!-- map page -->
+      <div class="section" id="sec2">
+        <div id="map">
+          <div id="left" class="sidebar flex-center left collapsed">
+            <div class="sidebar-content rounded-rect flex-center">
+              <script>
+                for (let i of features) {
+                  $(".sidebar-content").append(
+                    "<div class='sideBarItem' coord=" +
+                      i.geometry.coordinates +
+                      "><h3>" +
+                      i.properties.name +
+                      "</h3><div class = 'sidebarImg'><img src = 'img/" +
+                      i.properties.name +
+                      ".jpg' width = '200' height = '130' alt = 'error'></div>" +
+                      "<div><strong>Address:</strong> " +
+                      i.properties.address +
+                      "</div><div><strong>Open Time:</strong> " +
+                      i.properties.time +
+                      "</div><div class ='divideLine'</div><div>"
+                  );
+                }
+                $(".sideBarItem").click(function (e) {
+                  coord = e.currentTarget.getAttribute("coord").split(",");
+                  map.flyTo({ center: coord, zoom: 18 });
+                });
+
+                $(".sideBarItem").mouseover(function (e) {
+                  $(".sideBarItem").css("cursor", "pointer");
+                });
+              </script>
+            </div>
+            <div
+              class="sidebar-toggle rounded-rect left"
+              onclick="toggleSidebar('left')"
+            >
+              &rarr;
+            </div>
+          </div>
+        </div>
+        <div id="instructions">
+          <div id="calculated-line"></div>
+        </div>
+        <button id="custBut">NAVIGATION</button>
+        <div class="userGuide speech-bubble-left" id="guide1">
+          Click places on the left to find their positions on the map
+        </div>
+        <div class="userGuide speech-bubble-right" id="guide2">
+          Click the button to customize your own route
+        </div>
+        <div class="userGuide speech-bubble-right" id="guide3">
+          <p>
+            Click to draw a route and press <strong> ENTER </strong> to show
+            the navigation
+          </p>
+        </div>
+      </div>
+      <!-- map code -->
+      <script>
+        mapboxgl.accessToken =
+          "pk.eyJ1IjoiZ2FyeXpqYyIsImEiOiJja3VtY3cwYTMzcTk5MzFuejF2dDNzOHhxIn0.XrxgrBa-YqEGIg0u4UfgPQ";
+        const map = new mapboxgl.Map({
+          container: "map", // container ID
+          style: "mapbox://styles/garyzjc/ckuobypr6k9qh18npeoui5yfw/draft", // style URL
+          center: [144.968, -37.814], // starting position [lng, lat]
+          zoom: 13, // starting zoom
+        });
+
+        // left side bar toggle
+        function toggleSidebar(id) {
+          const elem = document.getElementById(id);
+          // Add or remove the 'collapsed' CSS class from the sidebar element.
+          // Returns boolean "true" or "false" whether 'collapsed' is in the class list.
+          const collapsed = elem.classList.toggle("collapsed");
+          const padding = {};
+          // 'id' is 'right' or 'left'. When run at start, this object looks like: '{left: 300}';
+          padding[id] = collapsed ? 0 : 300; // 0 if collapsed, 300 px if not. This matches the width of the sidebars in the .sidebar CSS class.
+          // Use `map.easeTo()` with a padding option to adjust the map's center accounting for the position of sidebars.
+          map.easeTo({
+            padding: padding,
+            duration: 1000, // In ms. This matches the CSS transition duration property.
+          });
+        }
+
+        map.on("load", () => {
+          toggleSidebar("left");
+          map.addSource("places", {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: features,
+            },
+          });
+
+          // Add a layer showing the places.
+          map.addLayer({
+            id: "places",
+            type: "circle",
+            source: "places",
+            paint: {
+              "circle-color": "#4264fb",
+              "circle-radius": 7.5,
+              "circle-stroke-width": 2,
+              "circle-stroke-color": "#ffffff",
+            },
+          });
+
+          // add markers to the map
+          addMarkers();
+
+          // add the navigation control
+          map.addControl(new mapboxgl.NavigationControl());
+        });
+
+        function addMarkers() {
+          /* For each feature in the GeoJSON object above: */
+          for (const feature of features) {
+            /* Create a div element for the marker. */
+            const el = document.createElement("div");
+            /* Assign the `marker` class to each marker for styling. */
+            el.className = "marker";
+            /* Assign the tag label classes to each marker */
+            if (feature.properties.tag === "scenic point") {
+              el.classList.add("scenic");
+            } else {
+              el.classList.add("restaurant");
+            }
+            /**
+             * Create a marker using the div element
+             * defined above and add it to the map.
+             **/
+            let custMarker = new mapboxgl.Marker(el, { offset: [0, -25] })
+              .setLngLat(feature.geometry.coordinates)
+              .addTo(map);
+          }
+        }
+
+        // Create a popup, but don't add it to the map yet.
+        let enterPopup = new mapboxgl.Popup({
+          closeButton: false,
+          closeOnClick: false,
+        });
+
+        // Hover to pop up
+        map.on("mouseenter", "places", (e) => {
+          // Change the cursor style as a UI indicator.
+          map.getCanvas().style.cursor = "pointer";
+
+          // Copy coordinates array.
+          const coordinates = e.features[0].geometry.coordinates.slice();
+          const name = e.features[0].properties.name;
+
+          // Ensure that if the map is zoomed out such that multiple
+          // copies of the feature are visible, the popup appears
+          // over the copy being pointed to.
+          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+          }
+
+          // Populate the popup and set its coordinates
+          // based on the feature found.
+          enterPopup
+            .setLngLat(coordinates)
+            .setHTML("<strong>" + name + "</strong>")
+            .addTo(map);
+        });
+
+        // customize bool
+        var isCust = false;
+        // Click to pop up
+        map.on("click", "places", (e) => {
+          // Copy coordinates array.
+          const coordinates = e.features[0].geometry.coordinates.slice();
+          const name = e.features[0].properties.name;
+          const description = e.features[0].properties.description;
+          const phone = e.features[0].properties.phone;
+          const website = e.features[0].properties.website;
+          const address = e.features[0].properties.address;
+          const time = e.features[0].properties.time;
+          const popupWindow =
+            "<div class = 'popupWindow'><h2>" +
+            name +
+            "</h2><div>" +
+            description +
+            "</div><div><strong>Phone: </strong>" +
+            phone +
+            "</div><div><strong>Open Time: </strong>" +
+            time +
+            "</div><div><strong>Address: </strong>" +
+            address +
+            "</div><a href = '" +
+            website +
+            "'>website</a></div>";
+
+          // Ensure that if the map is zoomed out such that multiple
+          // copies of the feature are visible, the popup appears
+          // over the copy being pointed to.
+          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+          }
+
+          if (!isCust) {
+            new mapboxgl.Popup()
+              .setLngLat(coordinates)
+              .setHTML(popupWindow)
+              .addTo(map);
+          }
+        });
+
+        map.on("mouseleave", "places", () => {
+          map.getCanvas().style.cursor = "";
+          enterPopup.remove();
+        });
+      </script>
+      <!-- draw the line -->
+      <script src="drawLine.js"></script>
+      <script src="userGuide.js"></script>
+      <!-- chart page -->
+      <div class="section">
+        <div class="chartPage">
+          <div id="barCanvas">
+            <canvas id="myChart"></canvas>
+          </div>
+
+          <div id="pieCanvas">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- chart page -->
+    <script src="chart.js"></script>
+    <!-- fullpage library -->
+    <script>
+      $(document).ready(function () {
+        $("#fullpage").fullpage({
+          //Navigation
+          normalScrollElements: "#map, #instructions",
+          navigation: true,
+          navigationPosition: "right",
+          navigationTooltips: ["Main Page", "Map", "Chart"],
+          autoScrolling: true,
+          scrollHorizontally: true,
+          controlArrows: false,
+          slidesNavigation: true,
+          verticalCentered: true,
+          scrollingSpeed: 800,
+          licenseKey: "3F9601FB-2B574E9F-BBEE354F-00C21111",
+
+          afterRender: function () {
+            setInterval(function () {
+              $.fn.fullpage.moveSlideRight();
+            }, 3000);
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
